@@ -1,0 +1,57 @@
+<h4>
+  Photo Board
+</h4>
+
+<hr>
+
+<div class="d-flex justify-content-between w-100 align-items-end">
+  <div>
+    <label for="image-url">Add image to the board</label>
+    <br>
+    <input #imageUrl id="image-url">
+
+    <button class="primary ml-3" (click)="addImage(imageUrl.value); imageUrl.value = null">Add</button>
+  </div>
+  <button (click)="runTaggingApi()">Run Tagging Api</button>
+
+  <div class="d-flex align-items-end">
+    <div class="select">
+      <label for="select-board">Select existing board</label>
+      <br>
+      <select
+        #selectedBoard
+        id="select-board"
+        class="w-100"
+        [value]="current?._id"
+        (change)="selectCurrent(selectedBoard.value)"
+      >
+        <option *ngFor="let board of boards" [value]="board._id">
+          {{board.name}}
+        </option>
+      </select>
+    </div>
+
+    <button class="ml-3" (click)="createNewBoard(createBoardModal)">Create a new board</button>
+  </div>
+</div>
+
+<app-images-list></app-images-list>
+
+<div *ngIf="isChanged" class="d-flex w-100 justify-content-end">
+  <button (click)="dismissChanges()">Dismiss Changes</button>
+  <button class="primary" (click)="saveChanges()">Save Board</button>
+</div>
+
+<ng-template #createBoardModal let-modal>
+  <div class="modal-header">
+    <h4>Create a new board</h4>
+    <button class="ml-auto" (click)="modal.close()">Cancel</button>
+  </div>
+  <div class="modal-body d-flex align-items-center">
+    <label for="board-name" class="mb-0">Board name</label>
+    <input class="flex-fill ml-3" id="board-name" #boardName>
+  </div>
+  <div class="modal-footer">
+    <button class="ml-auto" (click)="modal.close(boardName.value)">Create</button>
+  </div>
+</ng-template>

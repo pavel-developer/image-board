@@ -1,0 +1,16 @@
+<div class="d-flex images-list flex-wrap">
+  <div *ngFor="let image of images; index as i" class="image" [ngbTooltip]="getTooltip(image.tags)">
+    <img [src]="image.url">
+    <div *ngIf="image.changeStatus" class="change-status">{{image.changeStatus.toLowerCase()}}</div>
+    <button *ngIf="!['DELETED', 'UPDATED'].includes(image.changeStatus)" (click)="deleteImage(image, i)">
+      <img class="icon" src="assets/delete.svg"/>
+    </button>
+    <button *ngIf="image._id && ['DELETED', 'UPDATED'].includes(image.changeStatus)" (click)="cancelDelete(image)">
+      <img class="icon" src="assets/cancel.svg"/>
+    </button>
+    <br>
+    <div class="tags" *ngIf="image.tags">
+      <span *ngFor="let tagged of image.tags">{{tagged.tag.en}}</span>
+    </div>
+  </div>
+</div>
